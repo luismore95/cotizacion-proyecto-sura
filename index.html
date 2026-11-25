@@ -561,9 +561,10 @@ h2{font-size:clamp(22px,3.4vw,30px)}
           <div class="partes" id="vPartes"></div>
         </div>
         <div class="otros">
-          <div class="otro"><span class="ic3"><svg><use href="#i-plata"/></svg></span><div><span>Cada orden nueva cargada</span><small>Descarga, lectura con Lince, revisión de Centinela y carga.</small></div><b class="tab" id="vOrden"></b></div>
-          <div class="otro"><span class="ic3"><svg><use href="#i-soporte"/></svg></span><div><span>Soporte mensual, desde la entrega</span><small>Como tener un desarrollador en la empresa: vigilar las descargas de Sura, cómo se comporta la base y el cuidado de los datos, y acompañar todo el proyecto de gobernanza.</small></div><b class="tab" id="vSoporte"></b></div>
-          <div class="otro"><span class="ic3 lima"><svg><use href="#i-cal"/></svg></span><div><span>Forma de pago</span><small>Se define en una reunión con doña Aida.</small></div><b class="txt">Por definir</b></div>
+          <div class="otro"><span class="ic3"><svg><use href="#i-soporte"/></svg></span><div><span>Soporte después de la entrega</span><small>Por horas, solo cuando Conhintec lo necesite: ajustes, consultas de Sura, revisar la base y cuidar los datos. Sin cuota fija mensual.</small></div><b class="tab" id="vHora"></b></div>
+          <div class="otro"><span class="ic3 lima"><svg><use href="#i-cal"/></svg></span><div><span>1. Pago inicial</span><small>Antes de iniciar el proyecto.</small></div><b class="tab" id="vPago1"></b></div>
+          <div class="otro"><span class="ic3 lima"><svg><use href="#i-cal"/></svg></span><div><span>2. Entrega del proyecto</span><small>15 de diciembre de 2026.</small></div><b class="tab" id="vPago2"></b></div>
+          <div class="otro"><span class="ic3 lima"><svg><use href="#i-cal"/></svg></span><div><span>3. Cuando Sura pague el proyecto</span><small>A más tardar 60 días después del segundo pago, así Sura no haya pagado todavía.</small></div><b class="tab" id="vPago3"></b></div>
         </div>
       </div>
       <p class="sub" style="font-size:13px;margin-top:16px">Valores en pesos colombianos. Trabajo sin exclusividad laboral; los datos y tableros son exclusivos de Conhintec.</p>
@@ -588,15 +589,15 @@ h2{font-size:clamp(22px,3.4vw,30px)}
 <script>
 // ===== Valores: cambia solo estos números =====
 const VALORES = {
-  // Montaje: parte equitativa (misma proporción de la primera cotización: 15 M de 70 M = 21,4 %) + los aplicativos.
+  // Acordado con Conhintec el 24-nov-2026: 30 M en total.
   partes: [
-    { nombre: 'Parte equitativa del proyecto', nota: '21,4 % de 184 M, la misma proporción de la primera cotización', valor: 39400000, color: '#7FD3E6' },
-    { nombre: 'Lince · lector masivo', nota: 'Aplicativo que queda para las siguientes cargas', valor: 5600000, color: '#DDEC69' },
-    { nombre: 'Centinela · control de calidad', nota: 'Aplicativo que queda para las siguientes cargas', valor: 3000000, color: '#5FD39A' },
-    { nombre: 'Descarga masiva de Cora', nota: 'Aplicativo que queda para las siguientes cargas', valor: 2000000, color: '#F2C46B' }
+    { nombre: 'Montaje del proyecto con el tablero', nota: 'Descarga, empresas por NIT, carga a la base de datos y tablero de Sura', valor: 25000000, color: '#7FD3E6' },
+    { nombre: 'Lince · lector masivo', nota: 'Es una fracción de lo que cuesta Lince; los otros 2.000.000 se cobran en los siguientes proyectos de gobernanza de datos', valor: 2000000, color: '#DDEC69' },
+    { nombre: 'Centinela · control de calidad', nota: 'Es una fracción de lo que cuesta Centinela', valor: 2000000, color: '#5FD39A' },
+    { nombre: 'Descarga masiva de Cora', nota: 'Aplicativo que queda para las siguientes cargas', valor: 1000000, color: '#F2C46B' }
   ],
-  porOrden: 7000,
-  soporteMes: 2000000
+  hora: 80000,
+  pagos: [10000000, 10000000, 10000000]
 };
 // ==============================================
 
@@ -782,8 +783,8 @@ $$('.g-riel').forEach((r, k) => { const h = document.createElement('span'); h.cl
 // ----- Inversión -----
 const total = VALORES.partes.reduce((s, p) => s + p.valor, 0);
 $('#vTotal').textContent = pesos(total);
-$('#vOrden').textContent = pesos(VALORES.porOrden);
-$('#vSoporte').innerHTML = pesos(VALORES.soporteMes) + '<small style="font:600 12px var(--fb);color:var(--mut)"> /mes</small>';
+$('#vHora').innerHTML = pesos(VALORES.hora) + '<small style="font:600 12px var(--fb);color:var(--mut)"> /hora</small>';
+VALORES.pagos.forEach((v, k) => $('#vPago' + (k + 1)).textContent = pesos(v));
 $('#vReparto').innerHTML = VALORES.partes.map(p => `<i style="background:${p.color}" data-w="${p.valor / total * 100}"></i>`).join('');
 $('#vPartes').innerHTML = VALORES.partes.map(p => `<div class="parte"><i style="background:${p.color}"></i><span>${p.nombre}<small>${p.nota}</small></span><b>${pesos(p.valor)}</b></div>`).join('');
 
